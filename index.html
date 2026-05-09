@@ -9,28 +9,120 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
     <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
-    <!-- EmailJS dihapus: kirim form langsung ke backend -->
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #050505; color: #ffffff; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, #0f172a 0%, #050505 100%); z-index: -2; }
-        #binary-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.15; z-index: -1; pointer-events: none; }
-        #navbar { background: transparent; border-bottom: 1px solid transparent; will-change: backdrop-filter, background; }
-        .nav-scrolled { background: rgba(5,5,5,0.7) !important; backdrop-filter: blur(20px) saturate(180%) !important; -webkit-backdrop-filter: blur(20px) saturate(180%) !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; padding-top: 1rem !important; padding-bottom: 1rem !important; }
-        .progress-line { height: 8px; width: 100%; background: rgba(255,255,255,0.1); border-radius: 10px; position: relative; overflow: hidden; margin-top: 4px; }
-        .progress-line span { height: 100%; position: absolute; left: 0; border-radius: 10px; background: linear-gradient(90deg, #3b82f6, #d946ef); box-shadow: 0 0 15px rgba(59,130,246,0.5); width: 0%; transition: width 1.5s cubic-bezier(0.19, 1, 0.22, 1); }
-        @keyframes marquee { 0% { transform: translate3d(0,0,0); } 100% { transform: translate3d(-50%,0,0); } }
-        .tech-marquee { display: flex; width: max-content; animation: marquee 30s linear infinite; will-change: transform; }
-        .tech-item { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 40px; transition: all 0.4s ease; }
-        .tech-item i { font-size: 55px; margin-bottom: 10px; }
-        .tech-item span { font-size: 12px; font-weight: 700; color: #94a3b8; letter-spacing: 1px; text-transform: uppercase; }
-        .marquee-wrapper { position: relative; width: 100%; overflow: hidden; mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); }
 
-        /* ✅ FIX: Python icon warna asli kuning-biru */
-        .devicon-python-plain.colored,
-        .devicon-python-plain { color: #3776AB; } /* biru default */
-        /* Override via SVG background trick — pakai class khusus */
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .bg-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, #0f172a 0%, #050505 100%);
+            z-index: -2;
+        }
+
+        #binary-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.15;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Navbar Styles */
+        #navbar {
+            background: transparent;
+            border-bottom: 1px solid transparent;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-scrolled {
+            background: rgba(5, 5, 5, 0.7) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+
+        /* Skill Bars */
+        .progress-line {
+            height: 8px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+
+        .progress-line span {
+            height: 100%;
+            position: absolute;
+            left: 0;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #3b82f6, #d946ef);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            width: 0%;
+            transition: width 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        /* Marquee Animation */
+        @keyframes marquee {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+
+        .tech-marquee {
+            display: flex;
+            width: max-content;
+            animation: marquee 30s linear infinite;
+            will-change: transform;
+        }
+
+        .tech-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 40px;
+            transition: all 0.4s ease;
+        }
+
+        .tech-item i {
+            font-size: 55px;
+            margin-bottom: 10px;
+        }
+
+        .tech-item span {
+            font-size: 12px;
+            font-weight: 700;
+            color: #94a3b8;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .marquee-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        }
+
+        /* Custom Python Icon Gradient */
         .python-icon {
             font-size: 55px;
             margin-bottom: 10px;
@@ -40,16 +132,80 @@
             background-clip: text;
         }
 
-        .saturn-container { position: relative; width: 320px; height: 320px; perspective: 1000px; }
-        .saturn-ring { position: absolute; top: 50%; left: 50%; width: 420px; height: 420px; margin-top: -210px; margin-left: -210px; border: 8px double #3b82f6; border-radius: 50%; transform: rotateX(75deg) rotateY(15deg); animation: ring-spin 8s linear infinite; z-index: 20; pointer-events: none; box-shadow: 0 0 20px rgba(59,130,246,0.5), inset 0 0 20px rgba(59,130,246,0.5); }
-        @keyframes ring-spin { from { transform: rotateX(75deg) rotateY(15deg) rotateZ(0deg); } to { transform: rotateX(75deg) rotateY(15deg) rotateZ(360deg); } }
-        .profile-photo { position: relative; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; border: 4px solid rgba(255,255,255,0.1); z-index: 10; box-shadow: 0 0 50px rgba(59,130,246,0.2); }
-        .glass-card { background: rgba(20,20,20,0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; transition: all 0.3s ease; }
-        .input-field { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 16px; width: 100%; outline: none; transition: 0.3s; color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; }
-        .input-field:focus { border-color: rgba(59,130,246,0.5); background: rgba(59,130,246,0.05); }
-        .input-field::placeholder { color: #6b7280; }
-        .img-animate { animation: floating 5s ease-in-out infinite; }
-        @keyframes floating { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        /* Saturn Profile Animation */
+        .saturn-container {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            perspective: 1000px;
+        }
+
+        .saturn-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 420px;
+            height: 420px;
+            margin-top: -210px;
+            margin-left: -210px;
+            border: 8px double #3b82f6;
+            border-radius: 50%;
+            transform: rotateX(75deg) rotateY(15deg);
+            animation: ring-spin 8s linear infinite;
+            z-index: 20;
+            pointer-events: none;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5), inset 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+
+        @keyframes ring-spin {
+            from { transform: rotateX(75deg) rotateY(15deg) rotateZ(0deg); }
+            to { transform: rotateX(75deg) rotateY(15deg) rotateZ(360deg); }
+        }
+
+        .profile-photo {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            z-index: 10;
+            box-shadow: 0 0 50px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Utility Classes */
+        .glass-card {
+            background: rgba(20, 20, 20, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .input-field {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px 16px;
+            width: 100%;
+            outline: none;
+            transition: 0.3s;
+            color: #fff;
+        }
+
+        .input-field:focus {
+            border-color: rgba(59, 130, 246, 0.5);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .img-animate {
+            animation: floating 5s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
 
         /* Toast notification */
         #toast {
@@ -57,7 +213,6 @@
             padding: 1rem 1.5rem;
             border-radius: 12px;
             font-weight: 600;
-            font-size: 0.9rem;
             z-index: 9999;
             transform: translateY(100px);
             opacity: 0;
@@ -67,342 +222,222 @@
             gap: 10px;
             backdrop-filter: blur(10px);
             border: 2px solid;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
         }
-        #toast.show { 
-            transform: translateY(0); 
-            opacity: 1;
-            animation: slideInUp 0.5s ease-out;
-        }
-        #toast.success { 
-            background: rgba(16,185,129,0.2); 
-            border-color: rgba(16,185,129,0.5); 
-            color: #34d399; 
-        }
-        #toast.error { 
-            background: rgba(239,68,68,0.2); 
-            border-color: rgba(239,68,68,0.5); 
-            color: #f87171; 
-        }
-        #toast i {
-            font-size: 1.2rem;
-        }
+        #toast.show { transform: translateY(0); opacity: 1; }
+        #toast.success { background: rgba(16, 185, 129, 0.2); border-color: rgba(16, 185, 129, 0.5); color: #34d399; }
+        #toast.error { background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.5); color: #f87171; }
 
-        /* Form loading state */
-        .btn-loading { position: relative; pointer-events: none; }
-        .btn-loading::after { content: ''; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; border: 2px solid transparent; border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
+        .btn-loading { position: relative; pointer-events: none; opacity: 0.8; }
+        .btn-loading::after {
+            content: ''; position: absolute; right: 16px; top: 50%;
+            transform: translateY(-50%); width: 18px; height: 18px;
+            border: 2px solid transparent; border-top-color: #fff;
+            border-radius: 50%; animation: spin 0.7s linear infinite;
+        }
         @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
-
-        /* Better animations for button */
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes checkmark {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        .fa-bounce { animation: bounce 0.6s infinite; }
-        .fa-check-animation { animation: checkmark 0.6s ease-out; }
-
-        #submitBtn {
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        #submitBtn:disabled {
-            opacity: 0.8;
-        }
-
-        #submitBtn i {
-            margin-right: 8px;
-        }
     </style>
 </head>
 <body>
     <div class="bg-glow"></div>
 
-    <nav id="navbar" class="fixed w-full z-[100] transition-all duration-500 py-6">
-        <div class="container mx-auto px-6">
-            <div class="flex justify-between items-center">
-                <a href="#" class="text-2xl font-extrabold tracking-tighter italic">NAMZ<span class="text-blue-500">.</span></a>
-
-                <!-- Desktop menu -->
-                <div class="hidden md:flex space-x-10 items-center text-sm font-medium">
-                    <a href="#home" class="hover:text-blue-400 transition">Beranda</a>
-                    <a href="#about" class="hover:text-blue-400 transition">Tentang</a>
-                    <a href="#skills" class="hover:text-blue-400 transition">Skills</a>
-                    <a href="#projects" class="hover:text-blue-400 transition">Proyek</a>
-                    <a href="#contact" class="hover:text-blue-400 transition">Kontak</a>
-                </div>
-
-                <!-- Mobile hamburger -->
-                <button id="mobileMenuBtn" type="button" class="md:hidden inline-flex items-center justify-center w-11 h-11 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition" aria-label="Buka menu">
-                    <i id="mobileMenuIcon" class="fa-solid fa-bars text-lg"></i>
-                </button>
-
-                <!-- Desktop CTA -->
-                <a href="#contact" class="hidden md:inline-flex px-6 py-2 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition text-sm font-semibold">Hire Me</a>
+    <!-- NAVBAR -->
+    <nav id="navbar" class="fixed w-full z-[100] py-6">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="#" class="text-2xl font-extrabold italic">NAMZ<span class="text-blue-500">.</span></a>
+            
+            <div class="hidden md:flex space-x-10 items-center text-sm font-medium">
+                <a href="#home" class="hover:text-blue-400 transition">Beranda</a>
+                <a href="#about" class="hover:text-blue-400 transition">Tentang</a>
+                <a href="#skills" class="hover:text-blue-400 transition">Skills</a>
+                <a href="#projects" class="hover:text-blue-400 transition">Proyek</a>
+                <a href="#contact" class="hover:text-blue-400 transition">Kontak</a>
             </div>
 
-            <!-- Mobile dropdown -->
-            <div id="mobileMenu" class="md:hidden hidden mt-4">
-                <div class="rounded-2xl border border-white/10 bg-black/40 backdrop-blur-xl overflow-hidden">
-                    <div class="flex flex-col p-3">
-                        <a href="#home" class="px-4 py-3 rounded-xl hover:bg-white/10 transition text-sm font-semibold" data-mobile-link>Beranda</a>
-                        <a href="#about" class="px-4 py-3 rounded-xl hover:bg-white/10 transition text-sm font-semibold" data-mobile-link>Tentang</a>
-                        <a href="#skills" class="px-4 py-3 rounded-xl hover:bg-white/10 transition text-sm font-semibold" data-mobile-link>Skills</a>
-                        <a href="#projects" class="px-4 py-3 rounded-xl hover:bg-white/10 transition text-sm font-semibold" data-mobile-link>Proyek</a>
-                        <a href="#contact" class="px-4 py-3 rounded-xl hover:bg-white/10 transition text-sm font-semibold" data-mobile-link>Kontak</a>
+            <button id="mobileMenuBtn" class="md:hidden w-11 h-11 rounded-xl border border-white/10 bg-white/5">
+                <i id="mobileMenuIcon" class="fa-solid fa-bars"></i>
+            </button>
 
-                        <a href="#contact" class="mt-2 px-5 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition text-sm font-semibold text-center" data-mobile-cta>Hire Me</a>
-                    </div>
-                </div>
+            <a href="#contact" class="hidden md:inline-flex px-6 py-2 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition text-sm font-semibold">Hire Me</a>
+        </div>
+
+        <div id="mobileMenu" class="md:hidden hidden px-6 mt-4">
+            <div class="flex flex-col p-4 bg-black/80 backdrop-blur-xl rounded-2xl border border-white/10 space-y-4">
+                <a href="#home">Beranda</a>
+                <a href="#about">Tentang</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Proyek</a>
+                <a href="#contact">Kontak</a>
             </div>
         </div>
     </nav>
 
-    <!-- HERO -->
+    <!-- HERO SECTION -->
     <section id="home" class="relative min-h-screen flex flex-col justify-center pt-20">
         <canvas id="binary-canvas"></canvas>
         <div class="container mx-auto px-6 relative z-10">
             <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="reveal text-left">
+                <div class="reveal">
                     <h4 class="text-blue-400 font-bold tracking-widest mb-4 uppercase text-sm">Welcome to my world</h4>
-                    <h1 class="text-6xl md:text-8xl font-black mb-6 tracking-tight leading-none">
-                        Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-cyan-400">Namz</span>
+                    <h1 class="text-6xl md:text-8xl font-black mb-6 leading-none">
+                        Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Namz</span>
                     </h1>
-                    <div class="text-3xl md:text-4xl font-bold text-gray-300 mb-8">
+                    <div class="text-3xl font-bold text-gray-300 mb-8">
                         <span id="typing"></span>
                     </div>
-                    <p class="text-gray-400 text-lg leading-relaxed mb-10 max-w-lg">
-                        Membangun solusi digital yang mengintegrasikan estetika visual tajam dengan keamanan sistem tingkat tinggi.
-                    </p>
+                    <p class="text-gray-400 text-lg mb-10 max-w-lg">Membangun solusi digital yang mengintegrasikan estetika visual tajam dengan keamanan sistem tingkat tinggi.</p>
                     <div class="flex flex-wrap gap-4 mb-8">
-                        <a href="#contact" class="px-10 py-4 bg-blue-600 hover:bg-blue-700 rounded-full font-bold transition shadow-lg shadow-blue-500/30 text-center">Hubungi Saya</a>
-                        <a href="#projects" class="px-10 py-4 border border-white/10 rounded-full font-bold hover:bg-white/5 transition text-center">Lihat Karya</a>
+                        <a href="#contact" class="px-10 py-4 bg-blue-600 hover:bg-blue-700 rounded-full font-bold transition shadow-lg shadow-blue-500/30">Hubungi Saya</a>
+                        <a href="#projects" class="px-10 py-4 border border-white/10 rounded-full font-bold hover:bg-white/5 transition">Lihat Karya</a>
                     </div>
                     <div class="flex gap-6 text-2xl text-gray-400">
-                        <a href="https://github.com/namzx99" class="hover:text-white transition"><i class="fa-brands fa-github"></i></a>
-                        <a href="https://www.tiktok.com/@namz_bs?is_from_webapp=1&sender_device=pc" class="hover:text-white transition"><i class="fa-brands fa-tiktok"></i></a>
-                        <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://github.com/namzx99"><i class="fa-brands fa-github"></i></a>
+                        <a href="https://www.tiktok.com/@namz_bs"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
                     </div>
                 </div>
-                <div class="reveal flex justify-center items-center">
+                <div class="reveal flex justify-center">
                     <div class="saturn-container img-animate">
                         <div class="saturn-ring"></div>
-                        <div class="absolute inset-0 bg-blue-600/20 blur-[100px] rounded-full z-0"></div>
                         <div class="profile-photo">
-                            <img src="mylogo.jpeg" alt="Namz Profile" class="w-full h-full object-cover scale-110">
+                            <img src="mylogo.jpeg" class="w-full h-full object-cover">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- MARQUEE -->
+            <!-- MARQUEE TECH STACK -->
             <div class="marquee-wrapper mt-32">
                 <div class="tech-marquee">
-                    <!-- Set 1 -->
-                    <div class="tech-item"><i class="devicon-github-original colored" style="font-size:55px;margin-bottom:10px"></i><span>GitHub</span></div>
-                    <div class="tech-item"><i class="devicon-docker-plain colored" style="font-size:55px;margin-bottom:10px"></i><span>Docker</span></div>
-                    <div class="tech-item"><i class="devicon-linux-plain colored" style="font-size:55px;margin-bottom:10px"></i><span>Linux</span></div>
-                    <div class="tech-item"><i class="devicon-html5-plain colored" style="font-size:55px;margin-bottom:10px"></i><span>HTML5</span></div>
-                    <div class="tech-item"><i class="devicon-css3-plain colored" style="font-size:55px;margin-bottom:10px"></i><span>CSS3</span></div>
-                    <div class="tech-item"><i class="devicon-javascript-plain colored" style="font-size:55px;margin-bottom:10px"></i><span>JavaScript</span></div>
-                    <div class="tech-item"><i class="devicon-react-original colored" style="font-size:55px;margin-bottom:10px"></i><span>React</span></div>
-                    <div class="tech-item"><i class="devicon-nodejs-plain colored" style="font-size:55px;margin-bottom:10px"></i><span>NodeJS</span></div>
-                    <div class="tech-item"><i class="devicon-laravel-plain colored" style="font-size:55px;margin-bottom:10px"></i><span>Laravel</span></div>
-                    <!-- ✅ Python fix: pakai SVG dua warna asli -->
-                    <div class="tech-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" style="width:55px;height:55px;margin-bottom:10px">
-                            <linearGradient id="pyGrad1" x1="70.252" y1="1237.476" x2="170.659" y2="1151.089" gradientUnits="userSpaceOnUse" gradientTransform="matrix(.563 0 0 -.568 -29.215 707.817)">
-                                <stop offset="0" stop-color="#5A9FD4"/>
-                                <stop offset="1" stop-color="#306998"/>
-                            </linearGradient>
-                            <linearGradient id="pyGrad2" x1="209.474" y1="1098.811" x2="173.62" y2="1149.537" gradientUnits="userSpaceOnUse" gradientTransform="matrix(.563 0 0 -.568 -29.215 707.817)">
-                                <stop offset="0" stop-color="#FFD43B"/>
-                                <stop offset="1" stop-color="#FFE873"/>
-                            </linearGradient>
-                            <path fill="url(#pyGrad1)" d="M63.391 1.988c-4.222.02-8.252.379-11.8 1.007-10.45 1.846-12.346 5.71-12.346 12.837v9.411h24.693v3.137H29.977c-7.176 0-13.46 4.313-15.426 12.521-2.268 9.405-2.368 15.275 0 25.096 1.755 7.311 5.947 12.519 13.124 12.519h8.491V67.234c0-8.151 7.051-15.34 15.426-15.34h24.665c6.866 0 12.346-5.654 12.346-12.548V15.833c0-6.693-5.646-11.72-12.346-12.837-4.244-.706-8.645-1.027-12.866-1.008zm-13.354 7.569c2.55 0 4.634 2.117 4.634 4.721 0 2.593-2.083 4.69-4.634 4.69-2.56 0-4.633-2.097-4.633-4.69-.001-2.604 2.073-4.721 4.633-4.721z"/>
-                            <path fill="url(#pyGrad2)" d="M91.682 28.38v10.966c0 8.5-7.208 15.655-15.426 15.655H51.591c-6.756 0-12.346 5.783-12.346 12.548v23.508c0 6.693 5.818 10.628 12.346 12.547 7.816 2.297 15.312 2.713 24.665 0 6.216-1.801 12.346-5.423 12.346-12.547v-9.412H63.938v-3.138h37.012c7.176 0 9.852-5.005 12.348-12.519 2.578-7.735 2.467-15.174 0-25.096-1.774-7.145-5.161-12.521-12.348-12.521h-9.268zM77.809 87.927c2.561 0 4.634 2.097 4.634 4.692 0 2.602-2.074 4.719-4.634 4.719-2.55 0-4.633-2.117-4.633-4.719 0-2.595 2.083-4.692 4.633-4.692z"/>
-                        </svg>
-                        <span>Python</span>
-                    </div>
-                    <div class="tech-item"><i class="devicon-tailwindcss-plain colored" style="font-size:55px;margin-bottom:10px"></i><span>Tailwind</span></div>
-                    <div class="tech-item"><i class="devicon-mysql-plain colored" style="font-size:55px;margin-bottom:10px"></i><span>MySQL</span></div>
-                    <!-- Duplikat untuk loop -->
-                    <div class="tech-item"><i class="devicon-github-original colored" style="font-size:55px;margin-bottom:10px"></i><span>GitHub</span></div>
-                    <div class="tech-item"><i class="devicon-docker-plain colored" style="font-size:55px;margin-bottom:10px"></i><span>Docker</span></div>
-                    <div class="tech-item"><i class="devicon-linux-plain colored" style="font-size:55px;margin-bottom:10px"></i><span>Linux</span></div>
-                    <div class="tech-item"><i class="devicon-html5-plain colored" style="font-size:55px;margin-bottom:10px"></i><span>HTML5</span></div>
-                    <div class="tech-item"><i class="devicon-css3-plain colored" style="font-size:55px;margin-bottom:10px"></i><span>CSS3</span></div>
-                    <div class="tech-item"><i class="devicon-javascript-plain colored" style="font-size:55px;margin-bottom:10px"></i><span>JavaScript</span></div>
-                    <div class="tech-item"><i class="devicon-react-original colored" style="font-size:55px;margin-bottom:10px"></i><span>React</span></div>
-                    <div class="tech-item"><i class="devicon-nodejs-plain colored" style="font-size:55px;margin-bottom:10px"></i><span>NodeJS</span></div>
-                    <div class="tech-item"><i class="devicon-laravel-plain colored" style="font-size:55px;margin-bottom:10px"></i><span>Laravel</span></div>
-                    <div class="tech-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" style="width:55px;height:55px;margin-bottom:10px">
-                            <path fill="#306998" d="M63.391 1.988c-4.222.02-8.252.379-11.8 1.007-10.45 1.846-12.346 5.71-12.346 12.837v9.411h24.693v3.137H29.977c-7.176 0-13.46 4.313-15.426 12.521-2.268 9.405-2.368 15.275 0 25.096 1.755 7.311 5.947 12.519 13.124 12.519h8.491V67.234c0-8.151 7.051-15.34 15.426-15.34h24.665c6.866 0 12.346-5.654 12.346-12.548V15.833c0-6.693-5.646-11.72-12.346-12.837-4.244-.706-8.645-1.027-12.866-1.008zm-13.354 7.569c2.55 0 4.634 2.117 4.634 4.721 0 2.593-2.083 4.69-4.634 4.69-2.56 0-4.633-2.097-4.633-4.69-.001-2.604 2.073-4.721 4.633-4.721z"/>
-                            <path fill="#FFD43B" d="M91.682 28.38v10.966c0 8.5-7.208 15.655-15.426 15.655H51.591c-6.756 0-12.346 5.783-12.346 12.548v23.508c0 6.693 5.818 10.628 12.346 12.547 7.816 2.297 15.312 2.713 24.665 0 6.216-1.801 12.346-5.423 12.346-12.547v-9.412H63.938v-3.138h37.012c7.176 0 9.852-5.005 12.348-12.519 2.578-7.735 2.467-15.174 0-25.096-1.774-7.145-5.161-12.521-12.348-12.521h-9.268zM77.809 87.927c2.561 0 4.634 2.097 4.634 4.692 0 2.602-2.074 4.719-4.634 4.719-2.55 0-4.633-2.117-4.633-4.719 0-2.595 2.083-4.692 4.633-4.692z"/>
-                        </svg>
-                        <span>Python</span>
-                    </div>
-                    <div class="tech-item"><i class="devicon-tailwindcss-plain colored" style="font-size:55px;margin-bottom:10px"></i><span>Tailwind</span></div>
-                    <div class="tech-item"><i class="devicon-mysql-plain colored" style="font-size:55px;margin-bottom:10px"></i><span>MySQL</span></div>
+                    <!-- Tech Items Loop -->
+                    <div class="tech-item"><i class="devicon-github-original colored"></i><span>GitHub</span></div>
+                    <div class="tech-item"><i class="devicon-docker-plain colored"></i><span>Docker</span></div>
+                    <div class="tech-item"><i class="devicon-linux-plain colored"></i><span>Linux</span></div>
+                    <div class="tech-item"><i class="devicon-html5-plain colored"></i><span>HTML5</span></div>
+                    <div class="tech-item"><i class="devicon-javascript-plain colored"></i><span>JavaScript</span></div>
+                    <div class="tech-item"><i class="devicon-nodejs-plain colored"></i><span>NodeJS</span></div>
+                    <div class="tech-item"><i class="python-icon devicon-python-plain"></i><span>Python</span></div>
+                    <div class="tech-item"><i class="devicon-tailwindcss-plain colored"></i><span>Tailwind</span></div>
+                    <!-- Duplicate for infinite loop -->
+                    <div class="tech-item"><i class="devicon-github-original colored"></i><span>GitHub</span></div>
+                    <div class="tech-item"><i class="devicon-docker-plain colored"></i><span>Docker</span></div>
+                    <div class="tech-item"><i class="devicon-linux-plain colored"></i><span>Linux</span></div>
+                    <div class="tech-item"><i class="devicon-html5-plain colored"></i><span>HTML5</span></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ABOUT -->
+    <!-- ABOUT SECTION -->
     <section id="about" class="py-24 relative">
-        <div class="container mx-auto px-6 max-w-6xl relative z-10">
+        <div class="container mx-auto px-6 max-w-6xl">
             <h2 class="text-4xl font-bold mb-12 text-center reveal">About <span class="text-blue-500">Me</span></h2>
-            <div class="grid md:grid-cols-2 gap-12 items-start">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="reveal">
-                    <img src="momoi asep.jpg" alt="Work" class="rounded-2xl w-full object-cover aspect-video border border-white/10 shadow-2xl">
+                    <img src="momoi asep.jpg" class="rounded-2xl border border-white/10 shadow-2xl">
                 </div>
                 <div class="reveal">
-                    <h3 class="text-3xl font-bold mb-4">Cyber Security</h3>
-                    <p class="text-gray-400 leading-relaxed mb-6">Berpengalaman dalam membangun aplikasi web modern yang mengutamakan performa dan perlindungan data tingkat tinggi.</p>
-                    <div class="grid grid-cols-2 gap-y-4 mb-8">
-                        <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-blue-500"></i><span class="text-sm">Smart</span></div>
-                        <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-blue-500"></i><span class="text-sm">Os Testing</span></div>
-                        <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-blue-500"></i><span class="text-sm">Fast Learner</span></div>
-                        <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-blue-500"></i><span class="text-sm">Creative Thinker</span></div>
-                        <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-blue-500"></i><span class="text-sm">Good Communication</span></div>
-                        <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-blue-500"></i><span class="text-sm">Secure Architecture</span></div>
+                    <h3 class="text-3xl font-bold mb-4">Cyber Security Specialist</h3>
+                    <p class="text-gray-400 mb-6">Berpengalaman dalam membangun aplikasi web modern yang mengutamakan performa dan perlindungan data tingkat tinggi.</p>
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-500"></i><span>Smart Analysis</span></div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-500"></i><span>OS Testing</span></div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-500"></i><span>Fast Learner</span></div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-500"></i><span>Secure Arch</span></div>
                     </div>
-                    <button class="px-8 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-blue-600 transition flex items-center gap-2 text-sm font-bold">Download CV <i class="fa-solid fa-download"></i></button>
+                    <button class="px-8 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-blue-600 transition font-bold">Download CV</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SKILLS -->
+    <!-- SKILLS SECTION -->
     <section id="skills" class="py-24 bg-white/5">
         <div class="container mx-auto px-6 max-w-7xl">
             <h2 class="text-4xl font-bold mb-16 text-center reveal">My <span class="text-blue-500">Skills</span></h2>
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="glass-card p-8 reveal skill-card">
-                    <div class="flex items-center gap-4 mb-8"><i class="fa-solid fa-code text-2xl text-blue-400"></i><h3 class="text-xl font-bold">Frontend</h3></div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-card p-8 reveal">
+                    <i class="fa-solid fa-code text-3xl text-blue-400 mb-6"></i>
+                    <h3 class="text-xl font-bold mb-6">Frontend</h3>
                     <div class="space-y-6">
-                        <div><div class="flex justify-between mb-2 text-xs font-semibold"><span>HTML/CSS</span><span>95%</span></div><div class="progress-line"><span data-width="95%"></span></div></div>
-                        <div><div class="flex justify-between mb-2 text-xs font-semibold"><span>JavaScript</span><span>90%</span></div><div class="progress-line"><span data-width="90%"></span></div></div>
-                        <div><div class="flex justify-between mb-2 text-xs font-semibold"><span>Tailwind</span><span>85%</span></div><div class="progress-line"><span data-width="85%"></span></div></div>
+                        <div><div class="flex justify-between text-xs mb-2"><span>HTML/CSS</span><span>95%</span></div><div class="progress-line"><span data-width="95%"></span></div></div>
+                        <div><div class="flex justify-between text-xs mb-2"><span>JavaScript</span><span>90%</span></div><div class="progress-line"><span data-width="90%"></span></div></div>
                     </div>
                 </div>
-                <div class="glass-card p-8 reveal skill-card">
-                    <div class="flex items-center gap-4 mb-8"><i class="fa-solid fa-server text-2xl text-purple-400"></i><h3 class="text-xl font-bold">Backend</h3></div>
+                <div class="glass-card p-8 reveal">
+                    <i class="fa-solid fa-server text-3xl text-purple-400 mb-6"></i>
+                    <h3 class="text-xl font-bold mb-6">Backend</h3>
                     <div class="space-y-6">
-                        <div><div class="flex justify-between mb-2 text-xs font-semibold"><span>Node.js</span><span>85%</span></div><div class="progress-line"><span data-width="85%"></span></div></div>
-                        <div><div class="flex justify-between mb-2 text-xs font-semibold"><span>Laravel</span><span>80%</span></div><div class="progress-line"><span data-width="80%"></span></div></div>
-                        <div><div class="flex justify-between mb-2 text-xs font-semibold"><span>MySQL</span><span>82%</span></div><div class="progress-line"><span data-width="82%"></span></div></div>
+                        <div><div class="flex justify-between text-xs mb-2"><span>Node.js</span><span>85%</span></div><div class="progress-line"><span data-width="85%"></span></div></div>
+                        <div><div class="flex justify-between text-xs mb-2"><span>Laravel</span><span>80%</span></div><div class="progress-line"><span data-width="80%"></span></div></div>
                     </div>
                 </div>
-                <div class="glass-card p-8 reveal skill-card">
-                    <div class="flex items-center gap-4 mb-8"><i class="fa-solid fa-screwdriver-wrench text-2xl text-cyan-400"></i><h3 class="text-xl font-bold">Tools</h3></div>
+                <div class="glass-card p-8 reveal">
+                    <i class="fa-solid fa-shield-halved text-3xl text-cyan-400 mb-6"></i>
+                    <h3 class="text-xl font-bold mb-6">Security</h3>
                     <div class="space-y-6">
-                        <div><div class="flex justify-between mb-2 text-xs font-semibold"><span>GitHub</span><span>90%</span></div><div class="progress-line"><span data-width="90%"></span></div></div>
-                        <div><div class="flex justify-between mb-2 text-xs font-semibold"><span>Kali Linux</span><span>80%</span></div><div class="progress-line"><span data-width="80%"></span></div></div>
-                        <div><div class="flex justify-between mb-2 text-xs font-semibold"><span>Docker</span><span>75%</span></div><div class="progress-line"><span data-width="75%"></span></div></div>
+                        <div><div class="flex justify-between text-xs mb-2"><span>Kali Linux</span><span>85%</span></div><div class="progress-line"><span data-width="85%"></span></div></div>
+                        <div><div class="flex justify-between text-xs mb-2"><span>Network</span><span>75%</span></div><div class="progress-line"><span data-width="75%"></span></div></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- PROJECTS -->
+    <!-- PROJECTS SECTION -->
     <section id="projects" class="py-24">
         <div class="container mx-auto px-6 max-w-7xl">
-            <h2 class="text-4xl font-bold mb-16">Featured <span class="text-blue-500">Projects</span></h2>
+            <h2 class="text-4xl font-bold mb-16 reveal">Featured <span class="text-blue-500">Projects</span></h2>
             <div class="grid md:grid-cols-2 gap-8">
                 <div class="glass-card overflow-hidden group reveal">
-                    <div class="overflow-hidden"><img src="https://images.unsplash.com/photo-1557821552-17105176677c?q=80&w=1000" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500"></div>
+                    <img src="https://images.unsplash.com/photo-1557821552-17105176677c?q=80&w=1000" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
                     <div class="p-8">
                         <h3 class="text-2xl font-bold mb-2">Namz Store</h3>
-                        <p class="text-gray-400 mb-6">E-Commerce platform with secure checkout.</p>
-                        <div class="flex gap-4"><span class="text-xs text-blue-400 font-bold">LARAVEL</span><span class="text-xs text-purple-400 font-bold">TAILWIND</span></div>
+                        <p class="text-gray-400 mb-4">E-Commerce platform with secure checkout.</p>
+                        <div class="flex gap-3 text-xs font-bold"><span class="text-blue-400">LARAVEL</span><span class="text-purple-400">TAILWIND</span></div>
                     </div>
                 </div>
                 <div class="glass-card overflow-hidden group reveal">
-                    <div class="overflow-hidden"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1000" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500"></div>
+                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1000" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
                     <div class="p-8">
                         <h3 class="text-2xl font-bold mb-2">XV10 Bot</h3>
-                        <p class="text-gray-400 mb-6">Automated Response and utility tools.</p>
-                        <div class="flex gap-4"><span class="text-xs text-green-400 font-bold">PYTHON</span><span class="text-xs text-cyan-400 font-bold">NODEJS</span></div>
+                        <p class="text-gray-400 mb-4">Automated Response and utility tools.</p>
+                        <div class="flex gap-3 text-xs font-bold"><span class="text-green-400">PYTHON</span><span class="text-cyan-400">NODEJS</span></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CONTACT -->
+    <!-- CONTACT SECTION -->
     <section id="contact" class="py-24 bg-white/5">
-        <div class="container mx-auto px-6 max-w-6xl text-center mb-12">
-            <h2 class="text-4xl font-bold mb-4 reveal">Let's <span class="text-blue-400">Talk With Me</span></h2>
-            <p class="text-gray-400 reveal">Punya ide luar biasa? Hubungi saya sekarang.</p>
+        <div class="container mx-auto px-6 max-w-6xl text-center mb-16">
+            <h2 class="text-4xl font-bold mb-4 reveal">Let's <span class="text-blue-400">Connect</span></h2>
+            <p class="text-gray-400 reveal">Punya ide luar biasa? Mari kita wujudkan bersama.</p>
         </div>
 
         <div class="container mx-auto px-6 max-w-6xl">
-            <div class="grid gap-6 md:grid-cols-3 md:gap-8 items-stretch">
-                <div class="glass-card p-6 sm:p-10 flex flex-col justify-center space-y-6 sm:space-y-10 reveal md:col-span-1">
-                    <div class="flex items-center gap-4 w-full">
-                        <div class="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center text-xl text-blue-400 border border-blue-500/30 flex-shrink-0">
-                            <i class="fa-solid fa-envelope"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Email Me</p>
-                            <p class="text-sm font-bold text-gray-200 truncate">namzxnamz4@gmail.com</p>
-                        </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Info Cards -->
+                <div class="glass-card p-8 flex flex-col space-y-8 reveal">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400"><i class="fa-solid fa-envelope"></i></div>
+                        <div><p class="text-[10px] text-gray-500 font-bold uppercase">Email</p><p class="text-sm font-bold">namzxnamz4@gmail.com</p></div>
                     </div>
-
-                    <div class="flex items-center gap-4 w-full">
-                        <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center text-xl text-purple-400 border border-purple-500/30 flex-shrink-0">
-                            <i class="fa-solid fa-location-dot"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Location</p>
-                            <p class="text-sm font-bold text-gray-200">Purbalingga, Babakan</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-4 w-full">
-                        <div class="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center text-xl text-green-400 border border-green-500/30 flex-shrink-0">
-                            <i class="fa-brands fa-whatsapp"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">WhatsApp</p>
-                            <p class="text-sm font-bold text-gray-200">+62 895-3207-23578</p>
-                        </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center text-green-400"><i class="fa-brands fa-whatsapp"></i></div>
+                        <div><p class="text-[10px] text-gray-500 font-bold uppercase">WhatsApp</p><p class="text-sm font-bold">+62 895-3207-23578</p></div>
                     </div>
                 </div>
 
-                <div class="md:col-span-2 glass-card p-6 sm:p-10 reveal">
-                    <form id="contactForm" class="space-y-5 sm:space-y-6" novalidate>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-                            <div class="relative">
-                                <i class="fa-solid fa-user absolute left-4 top-4 text-gray-500"></i>
-                                <input type="text" id="from_name" name="from_name" placeholder="Nama Anda" class="input-field pl-12" required>
-                            </div>
-                            <div class="relative">
-                                <i class="fa-solid fa-at absolute left-4 top-4 text-gray-500"></i>
-                                <input type="email" id="reply_to" name="reply_to" placeholder="Email Anda" class="input-field pl-12" required>
-                            </div>
+                <!-- Form -->
+                <div class="md:col-span-2 glass-card p-10 reveal">
+                    <form id="contactForm" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <input type="text" id="from_name" placeholder="Nama Anda" class="input-field" required>
+                            <input type="email" id="reply_to" placeholder="Email Anda" class="input-field" required>
                         </div>
-                        <div class="relative">
-                            <i class="fa-solid fa-message absolute left-4 top-4 text-gray-500"></i>
-                            <textarea id="message" name="message" rows="5" placeholder="Pesan Anda..." class="input-field pl-12" required></textarea>
-                        </div>
-                        <button type="submit" id="submitBtn" class="w-full py-4 bg-blue-600 hover:bg-blue-700 rounded-xl font-bold transition flex items-center justify-center gap-2">
+                        <textarea id="message" rows="5" placeholder="Pesan Anda..." class="input-field" required></textarea>
+                        <button type="submit" id="submitBtn" class="w-full py-4 bg-blue-600 hover:bg-blue-700 rounded-xl font-bold transition flex justify-center items-center gap-2">
                             <i class="fa-solid fa-paper-plane"></i> Kirim Pesan
                         </button>
                     </form>
@@ -411,27 +446,24 @@
         </div>
     </section>
 
-    <footer class="py-12 border-t border-white/5">
-        <div class="container mx-auto px-6 text-center text-gray-500 text-sm">
-            <p>&copy; 2026 Created by <span class="text-white font-bold">Namz</span>. All Rights Reserved.</p>
-        </div>
+    <footer class="py-12 border-t border-white/5 text-center">
+        <p class="text-gray-500 text-sm">&copy; 2026 Created by <span class="text-white font-bold">Namz</span>. All Rights Reserved.</p>
     </footer>
 
     <div id="toast"></div>
 
     <script>
-        // ✅ FIX KONEKSI RAILWAY
-        // Jika di hosting, URL akan otomatis ke domain saat ini. Jika di localhost, ke port 3000.
+        // ✅ PERBAIKAN LOGIKA KONEKSI RAILWAY
+        // Otomatis deteksi URL: localhost jika dev, atau URL domain asli jika deploy.
         const backendURL = window.location.hostname === 'localhost' 
             ? 'http://localhost:3000/api/send-email' 
-            : window.location.origin + '/api/send-email';
+            : `${window.location.origin}/api/send-email`;
 
-        // ScrollReveal init
+        // ScrollReveal
         const sr = ScrollReveal({ origin: 'bottom', distance: '60px', duration: 1000, delay: 200, reset: false });
         sr.reveal('.reveal');
-        sr.reveal('.skill-card', { interval: 100 });
 
-        // Navbar scroll effect
+        // Navbar Scroll
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
             if (window.scrollY > 50) nav.classList.add('nav-scrolled');
@@ -451,26 +483,22 @@
             typeSpeed: 50, backSpeed: 30, loop: true
         });
 
-        // Mobile Menu Toggle
+        // Mobile Menu
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
-        const mobileMenuIcon = document.getElementById('mobileMenuIcon');
         mobileMenuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
-            mobileMenuIcon.classList.toggle('fa-bars');
-            mobileMenuIcon.classList.toggle('fa-xmark');
         });
 
-        // Toast Function
+        // Toast
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
-            const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
-            toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
+            toast.innerHTML = message;
             toast.className = `show ${type}`;
             setTimeout(() => { toast.classList.remove('show'); }, 4000);
         }
 
-        // Form Handling
+        // Form Submit
         const contactForm = document.getElementById('contactForm');
         const submitBtn = document.getElementById('submitBtn');
 
@@ -483,14 +511,9 @@
                 message: document.getElementById('message').value
             };
 
-            if (!formData.from_name || !formData.reply_to || !formData.message) {
-                showToast('Mohon isi semua field!', 'error');
-                return;
-            }
-
             submitBtn.disabled = true;
             submitBtn.classList.add('btn-loading');
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner"></i> Mengirim...';
+            submitBtn.innerHTML = 'Mengirim...';
 
             try {
                 const response = await fetch(backendURL, {
@@ -503,11 +526,13 @@
                     showToast('Pesan berhasil terkirim!');
                     contactForm.reset();
                 } else {
-                    showToast('Gagal mengirim pesan.', 'error');
+                    const errorText = await response.text();
+                    console.error('Server Error:', errorText);
+                    showToast('Gagal mengirim ke server.', 'error');
                 }
             } catch (error) {
-                console.error('Error:', error);
-                showToast('❌ Koneksi error. Pastikan server berjalan!', 'error');
+                console.error('Network Error:', error);
+                showToast('Koneksi ke backend error!', 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.classList.remove('btn-loading');
@@ -515,7 +540,7 @@
             }
         });
 
-        // Binary Canvas Animation
+        // Binary Animation
         const canvas = document.getElementById('binary-canvas');
         const ctx = canvas.getContext('2d');
         let width, height, columns;
@@ -526,7 +551,6 @@
             height = canvas.height = window.innerHeight;
             columns = Math.floor(width / fontSize);
         }
-
         initCanvas();
         window.addEventListener('resize', initCanvas);
 
