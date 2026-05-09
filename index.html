@@ -510,7 +510,7 @@
         })();
 
         /* ── Form Submit ── */
-        const API_URL = 'http://localhost:5000';
+         const API_URL = window.location.origin;
 
         document.getElementById('contactForm').addEventListener('submit', async function(e) {
             e.preventDefault();
