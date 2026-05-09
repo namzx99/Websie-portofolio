@@ -235,7 +235,7 @@
   </div>
 
   <script>
-   const API_URL = 'website-portofolio.up.railway.app';
+   const API_URL = 'https://website-portofolio.up.railway.app';
     const feedbackList = document.getElementById('feedbackList');
     const countBadge = document.getElementById('countBadge');
     const searchInput = document.getElementById('searchInput');
@@ -530,12 +530,12 @@
 
     // WebSocket untuk real-time updates
     function setupWebSocket() {
-      const wsUrl = 'website-portofolio.up.railway.app';
+      const WS_Url = 'wss://website-portofolio.up.railway.app';
       
       let ws;
       const tryConnect = (pathSuffix) => {
         try {
-          const url = `${wsUrl}${pathSuffix || ''}`;
+          const url = `${WS_Url}${pathSuffix || ''}`;
           ws = new WebSocket(url);
           ws.onopen = () => {
             console.log('✅ WebSocket connected to admin server:', url);
