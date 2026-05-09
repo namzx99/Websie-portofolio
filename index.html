@@ -516,7 +516,7 @@
 
         /* ── Device WS (notifikasi dari admin/server) ── */
         (function initDeviceWebSocket() {
-            const API_URL = 'https://website-portofolio-pro.up.railway.app';
+            const API_URL = 'https://website-portofolio-plum.vercel.app/';
             const WS_URL = API_URL.replace(/^https/, 'wss') + '/ws';
 
             const storeKey = 'deviceId';
@@ -566,7 +566,7 @@
         })();
 
         /* ── Form Submit ── */
-       const API_URL = 'https://website-portofolio-pro.up.railway.app';
+       const API_URL = 'https://website-portofolio-plum.vercel.app/';
 
         document.getElementById('contactForm').addEventListener('submit', async function(e) {
             e.preventDefault();
