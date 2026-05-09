@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin - Portfolio Feedback</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.0/axios.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    * { -webkit-tap-highlight-color: transparent; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -1000px 0; }
+      100% { background-position: 1000px 0; }
+    }
+
+    .animate-slideIn {
+      animation: slideIn 0.3s ease-out;
+    }
+
+    .animate-pulse-soft {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-transition {
+      transition: all 0.2s ease;
+    }
+
+    .btn-transition:active {
+      transform: scale(0.98);
+    }
+
+    .gradient-accent {
+      background: linear-gradient(135deg, #BFD9FF 0%, #63E6B2 100%);
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, rgba(191, 217, 255, 0.05) 0%, rgba(99, 230, 178, 0.05) 100%);
+    }
+
+    .badge-pulse {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    input::placeholder {
+      color: #6E7B8D;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #2A3447;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3A4457;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-[#05070D] via-[#07090F] to-[#0A0E18] text-[#E6EEF8]">
+  <!-- Animated background gradient -->
+  <div class="fixed inset-0 opacity-30 pointer-events-none">
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-500 rounded-full blur-3xl opacity-10"></div>
+    <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-green-500 rounded-full blur-3xl opacity-10"></div>
+  </div>
+
+  <div class="relative z-10 w-full px-4 py-6 sm:px-6 lg:px-8 min-h-screen">
+    <div class="mx-auto max-w-7xl">
+      <!-- Header -->
+      <header class="mb-8 sm:mb-12 animate-slideIn">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+          <div class="min-w-0 flex-1">
+            <div class="inline-flex items-center gap-4">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#BFD9FF] to-[#63E6B2] text-black border-2 border-black flex items-center justify-center font-black text-lg shadow-lg">
+                <i class="fas fa-sliders-h"></i>
+              </div>
+              <div class="min-w-0">
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">ADMIN PANEL</h1>
+                <p class="text-[#9AA6B2] mt-2 text-sm sm:text-base font-semibold flex items-center gap-2">
+                  <span class="w-2 h-2 bg-[#63E6B2] rounded-full badge-pulse"></span>
+                  Kelola feedback dari pengunjung
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onclick="location.reload()"
+            class="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl bg-white text-black border-2 border-black hover:bg-[#F0F0F0] active:bg-[#E0E0E0] transition px-4 py-3 text-sm font-extrabold btn-transition shadow-md"
+          >
+            <i class="fas fa-sync-alt"></i>
+            Refresh
+          </button>
+        </div>
+      </header>
+
+      <!-- Stats Grid -->
+      <section class="mb-8 sm:mb-10 animate-slideIn" style="animation-delay: 0.1s;">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
+          <!-- Total Card -->
+          <div class="stat-card rounded-2xl bg-[#0F1420]/50 border-2 border-[#BFD9FF]/20 p-5 sm:p-6 card-hover backdrop-blur-sm">
+            <div class="flex items-start justify-between">
+              <div class="min-w-0 flex-1">
+                <p class="text-[#9AA6B2] text-xs sm:text-sm font-extrabold tracking-widest uppercase">Total Feedback</p>
+                <p id="totalFeedback" class="text-4xl sm:text-5xl font-black text-[#BFD9FF] mt-3">0</p>
+              </div>
+              <div class="w-12 h-12 rounded-xl bg-[#BFD9FF]/10 flex items-center justify-center text-[#BFD9FF] text-lg">
+                <i class="fas fa-envelope"></i>
+              </div>
+            </div>
+            <div class="mt-3 text-xs text-[#7E8AA0] font-semibold">Semua pesan masuk</div>
+          </div>
+
+          <!-- Pending Card -->
+          <div class="stat-card rounded-2xl bg-[#0F1420]/50 border-2 border-[#FFD67A]/20 p-5 sm:p-6 card-hover backdrop-blur-sm">
+            <div class="flex items-start justify-between">
+              <div class="min-w-0 flex-1">
+                <p class="text-[#9AA6B2] text-xs sm:text-sm font-extrabold tracking-widest uppercase">Pending</p>
+                <p id="pendingFeedback" class="text-4xl sm:text-5xl font-black text-[#FFD67A] mt-3">0</p>
+              </div>
+              <div class="w-12 h-12 rounded-xl bg-[#FFD67A]/10 flex items-center justify-center text-[#FFD67A] text-lg animate-pulse-soft">
+                <i class="fas fa-hourglass-end"></i>
+              </div>
+            </div>
+            <div class="mt-3 text-xs text-[#7E8AA0] font-semibold">Menunggu respons</div>
+          </div>
+
+          <!-- Responded Card -->
+          <div class="stat-card rounded-2xl bg-[#0F1420]/50 border-2 border-[#63E6B2]/20 p-5 sm:p-6 card-hover backdrop-blur-sm">
+            <div class="flex items-start justify-between">
+              <div class="min-w-0 flex-1">
+                <p class="text-[#9AA6B2] text-xs sm:text-sm font-extrabold tracking-widest uppercase">Responded</p>
+                <p id="respondedFeedback" class="text-4xl sm:text-5xl font-black text-[#63E6B2] mt-3">0</p>
+              </div>
+              <div class="w-12 h-12 rounded-xl bg-[#63E6B2]/10 flex items-center justify-center text-[#63E6B2] text-lg">
+                <i class="fas fa-check-circle"></i>
+              </div>
+            </div>
+            <div class="mt-3 text-xs text-[#7E8AA0] font-semibold">Sudah direspon</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Toolbar -->
+      <section class="rounded-2xl bg-[#0F1420]/50 border-2 border-black/40 p-4 sm:p-6 mb-8 sm:mb-10 backdrop-blur-sm animate-slideIn" style="animation-delay: 0.2s;">
+        <div class="space-y-4">
+          <!-- Title Row -->
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h2 class="text-xl sm:text-2xl font-black tracking-tight flex items-center gap-2">
+                <i class="fas fa-list text-[#BFD9FF]"></i>
+                DAFTAR FEEDBACK
+              </h2>
+              <p class="text-[#7E8AA0] text-xs sm:text-sm font-semibold mt-2 flex items-center gap-2">
+                <span class="w-2 h-2 bg-[#63E6B2] rounded-full animate-pulse"></span>
+                <span class="font-black">Auto refresh</span> setiap 30 detik
+              </p>
+            </div>
+            <span
+              id="countBadge"
+              class="text-xs sm:text-sm text-[#D8E2EF] bg-[#BFD9FF]/10 border-2 border-[#BFD9FF]/20 rounded-full px-4 py-2 font-extrabold whitespace-nowrap backdrop-blur-sm"
+            >
+              Memuat...
+            </span>
+          </div>
+
+          <!-- Search Bar -->
+          <div class="relative">
+            <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-[#6E7B8D]"></i>
+            <input
+              id="searchInput"
+              type="text"
+              placeholder="Cari: nama, email, subject, atau message..."
+              class="w-full rounded-xl bg-[#0B0F19] border-2 border-black/50 pl-11 pr-4 py-3 text-sm font-semibold placeholder:text-[#6E7B8D] text-[#E6EEF8] outline-none focus:border-[#BFD9FF]/50 focus:ring-2 focus:ring-[#BFD9FF]/20 transition"
+              oninput="handleSearch()"
+            />
+          </div>
+
+          <!-- Filter Buttons -->
+          <div class="flex flex-wrap gap-2">
+            <button type="button" data-filter="all" onclick="setFilter('all')" class="filterBtn px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold border-2 border-black/50 transition bg-[#0B0F19] text-[#D8E2EF] hover:border-[#BFD9FF]/40 hover:bg-[#101826]">
+              <i class="fas fa-list mr-2"></i>Semua
+            </button>
+            <button type="button" data-filter="pending" onclick="setFilter('pending')" class="filterBtn px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold border-2 border-black/50 transition bg-[#0B0F19] text-[#D8E2EF] hover:border-[#FFD67A]/40 hover:bg-[#101826]">
+              <i class="fas fa-clock mr-2"></i>Pending
+            </button>
+            <button type="button" data-filter="responded" onclick="setFilter('responded')" class="filterBtn px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold border-2 border-black/50 transition bg-[#0B0F19] text-[#D8E2EF] hover:border-[#63E6B2]/40 hover:bg-[#101826]">
+              <i class="fas fa-check mr-2"></i>Responded
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Feedback List -->
+      <section class="rounded-2xl bg-[#0F1420]/50 border-2 border-black/40 p-4 sm:p-6 backdrop-blur-sm animate-slideIn" style="animation-delay: 0.3s;">
+        <div id="feedbackList" class="space-y-3 sm:space-y-4"></div>
+      </section>
+
+    </div>
+  </div>
+
+  <script>
+    const API_URL = new URLSearchParams(window.location.search).get('api') || 'http://localhost:5000/api';
+
+    const feedbackList = document.getElementById('feedbackList');
+    const countBadge = document.getElementById('countBadge');
+    const searchInput = document.getElementById('searchInput');
+
+    let allFeedbacks = [];
+    let currentFilter = 'all';
+    let currentSearch = '';
+
+    function setActiveFilterUI() {
+      document.querySelectorAll('.filterBtn').forEach(btn => {
+        const f = btn.getAttribute('data-filter');
+        const active = f === currentFilter;
+
+        if (active) {
+          btn.className = 'filterBtn px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold border-2 transition bg-white text-black hover:bg-[#F0F0F0]';
+          if (f === 'pending') {
+            btn.className = 'filterBtn px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold border-2 border-[#FFD67A] transition bg-[#FFD67A]/20 text-[#FFD67A]';
+          } else if (f === 'responded') {
+            btn.className = 'filterBtn px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold border-2 border-[#63E6B2] transition bg-[#63E6B2]/20 text-[#63E6B2]';
+          }
+        } else {
+          btn.className = 'filterBtn px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold border-2 border-black/50 transition bg-[#0B0F19] text-[#D8E2EF] hover:border-black/70 hover:bg-[#101826]';
+        }
+      });
+    }
+
+    window.setFilter = function (filter) {
+      currentFilter = filter;
+      setActiveFilterUI();
+      renderList();
+    };
+
+    function setLoading(loading) {
+      if (loading) {
+        feedbackList.innerHTML = `
+          <div class="flex items-center justify-center py-16">
+            <div class="text-center">
+              <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl border-2 border-[#BFD9FF]/30 bg-[#0B0F19] mb-4 animate-pulse">
+                <i class="fas fa-spinner fa-spin text-[#BFD9FF] text-xl"></i>
+              </div>
+              <p class="text-[#9AA6B2] font-semibold">Memuat feedback...</p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+      feedbackList.innerHTML = '';
+    }
+
+    function renderError(error) {
+      const msg = error?.response?.data?.message || error?.message || 'Unknown error';
+      feedbackList.innerHTML = `
+        <div class="bg-red-500/10 border-2 border-red-500/30 p-6 rounded-2xl backdrop-blur-sm">
+          <div class="flex items-start gap-3">
+            <div class="text-red-400 text-2xl flex-shrink-0">
+              <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <div>
+              <h3 class="font-black text-red-200 text-lg mb-2">Gagal Memuat Feedback</h3>
+              <p class="text-sm text-red-100/80 mb-3">${msg}</p>
+              <p class="text-xs text-red-100/70">
+                Pastikan backend berjalan dan CORS dikonfigurasi dengan benar.<br/>
+                API: <span class="font-black font-mono bg-red-500/20 px-2 py-1 rounded">${API_URL}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function formatTime(value) {
+      try { return new Date(value).toLocaleString('id-ID'); } catch { return String(value || ''); }
+    }
+
+    function statusPill(status) {
+      const s = String(status || '').toLowerCase();
+      if (s === 'pending') {
+        return `
+          <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-black bg-[#FFD67A] text-black border-2 border-black/80 shadow-md">
+            <i class="fas fa-hourglass-end"></i>
+            PENDING
+          </span>
+        `;
+      }
+      return `
+        <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-black bg-[#63E6B2] text-black border-2 border-black/80 shadow-md">
+          <i class="fas fa-check-circle"></i>
+          RESPONDED
+        </span>
+      `;
+    }
+
+    function safeText(v) { return v ?? ''; }
+
+    function handleSearch() {
+      currentSearch = String(searchInput.value || '').trim().toLowerCase();
+      renderList();
+    }
+
+    function matchesSearch(f) {
+      if (!currentSearch) return true;
+      const hay = [f.name, f.email, f.subject, f.message]
+        .map(x => String(x ?? ''))
+        .join(' ')
+        .toLowerCase();
+      return hay.includes(currentSearch);
+    }
+
+    function renderList() {
+      const filtered = allFeedbacks
+        .filter(f => currentFilter === 'all' ? true : String(f.status).toLowerCase() === currentFilter)
+        .filter(matchesSearch);
+
+      countBadge.textContent = `${filtered.length} item`;
+
+      if (filtered.length === 0) {
+        const hint = !currentSearch
+          ? (currentFilter === 'all' ? 'Tunggu pesan dari form kontak.' : 'Tidak ada feedback sesuai filter ini.')
+          : 'Tidak ada hasil untuk kata kunci ini.';
+
+        feedbackList.innerHTML = `
+          <div class="text-center py-16">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#0B0F19] border-2 border-black/50 mb-4">
+              <i class="fas fa-inbox text-[#9AA6B2] text-2xl"></i>
+            </div>
+            <p class="text-[#E6EEF8] font-black text-lg">Belum ada data</p>
+            <p class="text-[#9AA6B2] text-sm mt-2 font-semibold">${hint}</p>
+          </div>
+        `;
+        return;
+      }
+
+      feedbackList.innerHTML = '';
+      filtered.forEach((feedback, index) => {
+        const item = document.createElement('article');
+        item.className = 'bg-[#0B0F19]/60 border-2 border-black/50 rounded-2xl p-5 sm:p-6 card-hover backdrop-blur-sm animate-slideIn';
+        item.style.animationDelay = `${index * 30}ms`;
+
+        // Header with Name, Email, and Status
+        const header = document.createElement('div');
+        header.className = 'flex items-start justify-between gap-4 mb-4';
+
+        const nameEmailWrap = document.createElement('div');
+        nameEmailWrap.className = 'min-w-0 flex-1';
+
+        const name = document.createElement('h3');
+        name.className = 'text-lg sm:text-xl font-black text-[#E6EEF8] truncate';
+        name.textContent = safeText(feedback.name);
+
+        const email = document.createElement('p');
+        email.className = 'text-[#9AA6B2] text-sm font-semibold truncate mt-1';
+        email.textContent = safeText(feedback.email);
+
+        nameEmailWrap.appendChild(name);
+        nameEmailWrap.appendChild(email);
+
+        const pillWrap = document.createElement('div');
+        pillWrap.innerHTML = statusPill(feedback.status);
+
+        header.appendChild(nameEmailWrap);
+        header.appendChild(pillWrap);
+
+        // Subject Section
+        const subjectLabel = document.createElement('div');
+        subjectLabel.className = 'flex items-center gap-2 text-xs sm:text-sm text-[#7E8AA0] font-black uppercase tracking-widest mb-2';
+        subjectLabel.innerHTML = '<i class="fas fa-tag text-[#BFD9FF]/40"></i>Subject';
+
+        const subjectText = document.createElement('p');
+        subjectText.className = 'font-black text-[#E6EEF8] break-words leading-snug text-base mb-4';
+        subjectText.textContent = safeText(feedback.subject);
+
+        // Message Section
+        const msgLabel = document.createElement('div');
+        msgLabel.className = 'flex items-center gap-2 text-xs sm:text-sm text-[#7E8AA0] font-black uppercase tracking-widest mb-2';
+        msgLabel.innerHTML = '<i class="fas fa-message text-[#63E6B2]/40"></i>Message';
+
+        const msgText = document.createElement('p');
+        msgText.className = 'text-[#D8E2EF] text-sm sm:text-base leading-relaxed whitespace-pre-wrap break-words font-semibold bg-[#07090F]/40 rounded-xl p-3 sm:p-4 border-l-4 border-[#BFD9FF]/30 mb-4';
+        msgText.textContent = safeText(feedback.message);
+
+        // Footer with Time and Actions
+        const footer = document.createElement('div');
+        footer.className = 'mt-5 pt-4 border-t border-black/30 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4';
+
+        const time = document.createElement('div');
+        time.className = 'text-[#9AA6B2] text-xs sm:text-sm font-semibold flex items-center gap-2';
+        time.innerHTML = `<i class="fas fa-calendar text-[#7E8AA0]"></i>${formatTime(feedback.createdAt)}`;
+
+        const actionsWrap = document.createElement('div');
+        actionsWrap.className = 'flex gap-2 w-full sm:w-auto';
+
+        const markBtn = document.createElement('button');
+        markBtn.type = 'button';
+        markBtn.setAttribute('onclick', `markAsRead('${feedback._id}')`);
+        
+        if (feedback.status === 'pending') {
+          markBtn.className = 'flex-1 sm:flex-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-[#63E6B2] hover:bg-[#4DDBA8] active:bg-[#3EC993] transition border-2 border-black/80 text-black text-xs sm:text-sm font-black btn-transition shadow-md';
+          markBtn.innerHTML = '<i class="fas fa-check"></i>Tandai Dibaca';
+        } else {
+          markBtn.className = 'flex-1 sm:flex-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-[#2A3447] hover:bg-[#243041] active:bg-[#1D2635] transition border-2 border-black/50 text-[#E6EEF8] text-xs sm:text-sm font-black btn-transition';
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i>Dibaca';
+          markBtn.disabled = true;
+        }
+
+        const delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.setAttribute('onclick', `deleteFeedback('${feedback._id}')`);
+        delBtn.className = 'flex-1 sm:flex-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-red-500 hover:bg-red-600 active:bg-red-700 transition border-2 border-black/80 text-white text-xs sm:text-sm font-black btn-transition shadow-md';
+        delBtn.innerHTML = '<i class="fas fa-trash"></i>Hapus';
+
+        actionsWrap.appendChild(markBtn);
+        actionsWrap.appendChild(delBtn);
+
+        footer.appendChild(time);
+        footer.appendChild(actionsWrap);
+
+        item.appendChild(header);
+        item.appendChild(subjectLabel);
+        item.appendChild(subjectText);
+        item.appendChild(msgLabel);
+        item.appendChild(msgText);
+        item.appendChild(footer);
+
+        feedbackList.appendChild(item);
+      });
+    }
+
+    async function fetchFeedback() {
+      setLoading(true);
+
+      const controller = new AbortController();
+      const timeoutMs = 1000;
+      const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+      try {
+        const res = await fetch(`${API_URL}/feedback`, {
+          method: 'GET',
+          signal: controller.signal,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!res.ok) {
+          const text = await res.text().catch(() => '');
+          throw new Error(`HTTP ${res.status}: ${text || 'Gagal memuat feedback'}`);
+        }
+
+        const json = await res.json();
+        allFeedbacks = json?.data || [];
+
+        document.getElementById('totalFeedback').textContent = allFeedbacks.length;
+        document.getElementById('pendingFeedback').textContent =
+          allFeedbacks.filter(f => String(f.status).toLowerCase() === 'pending').length;
+        document.getElementById('respondedFeedback').textContent =
+          allFeedbacks.filter(f => String(f.status).toLowerCase() === 'responded').length;
+
+        renderList();
+      } catch (error) {
+        clearTimeout(timeoutId);
+
+        renderError({
+          message: error?.name === 'AbortError'
+            ? `Timeout: gagal memuat feedback dalam ${timeoutMs / 1000} detik. API: ${API_URL}/feedback`
+            : (error?.message || 'Unknown error')
+        });
+
+        console.error('Error loading feedback:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    async function markAsRead(id) {
+      try {
+        await axios.put(`${API_URL}/feedback/${id}`, { status: 'responded' });
+        fetchFeedback();
+      } catch (error) {
+        alert('Error: ' + (error?.response?.data?.message || error.message));
+      }
+    }
+
+    async function deleteFeedback(id) {
+      if (!confirm('Yakin ingin menghapus feedback ini?')) return;
+      try {
+        await axios.delete(`${API_URL}/feedback/${id}`);
+        fetchFeedback();
+      } catch (error) {
+        alert('Error: ' + (error?.response?.data?.message || error.message));
+      }
+    }
+
+    // WebSocket untuk real-time updates
+    function setupWebSocket() {
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsUrl = `${protocol}//${window.location.host}`;
+      
+      let ws;
+      const tryConnect = (pathSuffix) => {
+        try {
+          const url = `${wsUrl}${pathSuffix || ''}`;
+          ws = new WebSocket(url);
+          ws.onopen = () => {
+            console.log('✅ WebSocket connected to admin server:', url);
+          };
+          return true;
+        } catch (e) {
+          return false;
+        }
+      };
+
+      // Try first without path, then with /ws for compatibility
+      let connected = false;
+      connected = tryConnect('');
+      if (!connected) tryConnect('/ws');
+
+      // If first attempt fails at runtime (e.g. 404 WS path), we retry
+      let retryTimer = null;
+      const scheduleRetry = () => {
+        if (retryTimer) return;
+        retryTimer = setTimeout(() => {
+          retryTimer = null;
+          const currentState = ws?.readyState;
+          if (currentState !== WebSocket.OPEN) {
+            try { ws?.close(); } catch {}
+            tryConnect('/ws');
+          }
+        }, 1500);
+      };
+
+      ws.onerror = (err) => {
+        console.error('WebSocket error:', err);
+        scheduleRetry();
+      };
+
+
+      ws.onopen = () => {
+        console.log('✅ WebSocket connected to admin server');
+      };
+
+      ws.onmessage = (event) => {
+        try {
+          const message = JSON.parse(event.data);
+          const { event: eventType, data } = message;
+
+          if (eventType === 'new_feedback') {
+            // Add feedback baru ke store
+            allFeedbacks.unshift(data);
+            
+            // Show toast notification
+            const notif = document.createElement('div');
+            notif.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg animate-slideIn z-50';
+            notif.innerHTML = `<i class="fas fa-check-circle mr-2"></i>Pesan baru dari ${data.name}!`;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+
+            // Update counters
+            document.getElementById('totalFeedback').textContent = allFeedbacks.length;
+            document.getElementById('pendingFeedback').textContent =
+              allFeedbacks.filter(f => String(f.status).toLowerCase() === 'pending').length;
+
+            // Re-render the list
+            renderList();
+          } else if (eventType === 'feedback_updated') {
+            // Update feedback yang sudah ada
+            const idx = allFeedbacks.findIndex(f => f._id === data._id);
+            if (idx !== -1) {
+              allFeedbacks[idx] = data;
+              document.getElementById('respondedFeedback').textContent =
+                allFeedbacks.filter(f => String(f.status).toLowerCase() === 'responded').length;
+              renderList();
+            }
+          } else if (eventType === 'feedback_deleted') {
+            // Remove feedback
+            allFeedbacks = allFeedbacks.filter(f => f._id !== data._id);
+            document.getElementById('totalFeedback').textContent = allFeedbacks.length;
+            renderList();
+          }
+        } catch (err) {
+          console.error('WS message error:', err);
+        }
+      };
+
+
+
+      ws.onclose = () => {
+        console.log('WebSocket disconnected, retrying in 3 seconds...');
+        setTimeout(setupWebSocket, 3000); // Reconnect every 3 seconds
+      };
+    }
+
+    setActiveFilterUI();
+    renderList();
+    fetchFeedback();
+    setupWebSocket(); // Start WebSocket connection
+    setInterval(fetchFeedback, 60000); // Fallback polling every 60 seconds
+  </script>
+</body>
+</html>

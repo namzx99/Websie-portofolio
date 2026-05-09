@@ -1,0 +1,21 @@
+{
+  "name": "portfolio-backend",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.9.0",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "mongodb": "^6.5.0",
+    "mysql2": "^3.22.3",
+    "nodemailer": "^6.9.14",
+    "ws": "^8.20.0"
+  },
+  "devDependencies": {
+    "dotenv": "^17.4.2"
+  }
+}
